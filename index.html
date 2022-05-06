@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html>
+<head>     
+    <meta charset='utf-8'/>
+    <meta name='viewport' content='width=device-width, initial-scale=0.8, minimum-scale=0.8' />
+    <title>Ecco Text Generator</title>
+    <meta name="description" content="An animated Ecco the Dolphin Text Generator that uses the ripple generating algorythm from Ecco 2: The Tides of Time." />
+	<meta name="keywords" content="ecco text generator, ecco animated text generator, ecco message generator, animated gif, text, message, generator, ecco, ecco 2, 
+	ecco the Dolphin, tides of time, sega, genesis, mega drive, mega cd" />
+
+    <link href='resources/default/htm/' 
+        rel='stylesheet' type='text/css' />
+
+    <script type='text/javascript' src='gif.js?v=0428'></script>
+    <script type='text/javascript' src='wave-generator.js?v=0428'></script>
+    <script type='text/javascript' src='composition.js?v=0428'></script>
+    <script type='text/javascript' src='plot.js?v=0428'></script>
+    <script type='text/javascript' src='generator.js?v=071801'></script>
+    <script type='text/javascript' src='user-interface.js?v=042801'></script>
+    <script type='text/javascript' src='katakana-config.js?v=071721'></script>
+    <script type='text/javascript' src='ecco-text-generator.js?v=071801'></script>
+
+<style>
+
+html, body 
+{
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+}
+
+body
+{
+    font-size: 18px;
+    font-family: sans-serif;
+    color: #cccccc;
+    background-color: #000042;
+}
+
+input:focus, textarea:focus, select:focus{ outline: none; }
+
+a:link,
+a:visited,
+a:hover,
+a:active
+{
+    color: #cccccc;
+    text-decoration: none;
+}
+
+.align_r { text-align: right; }
+.align_c { text-align: center; }
+
+.float_l { float: left; }
+.float_r { float: right; }
+
+.visible { display: block; }
+.inline { display: inline-block; }
+.invisible { display: none; }
+
+.background_container
+{
+    height: 100%;
+    margin: 0px;
+    overflow: hidden;
+    padding: 0px;
+}
+
+.background_header
+{
+    background-image: url('resources/default/header-background.png');
+    background-repeat: repeat-x;
+    margin: 0px;
+    padding: 0px;
+    height: 160px;
+}
+
+.surface
+{
+    background-image: url('resources/default/surface.gif');
+    background-repeat: repeat-x;
+    height: 48px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.background
+{
+    background-image: url('resources/default/background.png');
+    background-position: 0px 208px;
+    background-repeat: repeat-x;
+    height: 100%;
+    left: 0px;
+    overflow: auto;
+    padding: 0px;
+    position: absolute;
+    top: 0px;
+    width: 100%;
+}
+
+/* panel */
+
+.panel
+{
+    clear: right;
+    width: 100%;
+}
+
+.panel_caption, .mmenu
+{
+    background-image: url('resources/panel-caption-light.png');
+    background-color: #111133;
+    cursor: pointer;
+    overflow: auto;
+    padding: 16px 8px 4px 8px;
+    text-align: center;
+    user-select: none;
+}
+
+.panel_caption_bottom,  .mmenu_bottom
+{
+    background-image: url('resources/panel-caption-dark.png');
+    height: 12px;
+}
+
+.panel_body { margin: 20px; }
+
+.mmenu, .mmenu_bottom { display: none; }
+
+/* dialog */
+
+.dialog
+{
+    background-color: #111133;
+    border: 1px solid #000022;
+    border-radius: 6px;
+    margin: 0px auto 20px auto;
+    overflow: auto;
+    width: 100%;
+}
+
+.dialog_caption
+{
+    background-color: #111133;
+    border-color: #444466 #444466;
+    border-style: solid;
+    border-width: 1px 0px 1px 1px;
+    border-radius: 6px 6px 0px 0px;
+    color: #bbbbcc;
+    font-weight: bold;
+    overflow: auto;
+    padding: 8px 16px;
+}
+
+.dialog_body
+{
+    background-color: #111133;
+    color: #bbbbcc;
+    overflow: auto;
+    padding: 8px 16px 8px 16px;
+}
+
+.dialog_editor
+{
+    border-color: #444466;
+    border-style: solid;
+    border-width: 0px 0px 0px 0px;
+    border-radius: 0px;
+    color: #bbbbcc;
+    outline: none;
+    padding: 16px 0px 16px 0px;
+}
+
+/* control */
+
+.control a:link,
+.control a:visited,
+.control a:hover,
+.control a:active,
+
+.control_selected a:link,
+.control_selected a:visited,
+.control_selected a:hover,
+.control_selected a:active
+{
+    color: #cccccc;
+    text-decoration: none;
+}
+
+.control,
+.control_selected
+{
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 8px auto 8px auto;
+    padding: 6px 16px 6px 16px;
+    text-align: center;
+    user-select: none;
+}
+
+.control { background-color: #555577; }
+.control_selected { background-color: #333355; }
+
+/* menu */
+
+.menu_category
+{
+    background-color: #222244;
+    border: 0px none transparent;
+    font-weight: bold;
+    padding: 8px 16px 8px 16px;
+    user-select: none;
+}
+
+.menu_item,
+.menu_item_selected,
+.menu_item_highlighted
+{
+    border: 0px none transparent;
+    cursor: pointer;
+    font-weight: bold;
+    overflow: auto;
+    padding: 8px 16px 8px 16px;
+    user-select: none;
+}
+
+.menu_item { background-color: #444466; }
+.menu_item_selected { background-color: #333355; }
+.menu_item_highlighted { background-color: #222244; }
+
+/* progress_bar */
+
+.progress_bar
+{
+    display: inline-block;
+    height: 16px;
+    width: 238px;
+}
+
+.progress_bar_000,
+.progress_bar_010,
+.progress_bar_020,
+.progress_bar_030,
+.progress_bar_040,
+.progress_bar_050,
+.progress_bar_060,
+.progress_bar_070,
+.progress_bar_080,
+.progress_bar_090,
+.progress_bar_100
+{
+    background-image: url('resources/default/progress-bar.png');
+    background-repeat: no-repeat;
+    background-size: 238px 16px;
+    height: 16px;
+    width: 238px;
+}
+
+.progress_bar_000 { width:   0px }
+.progress_bar_010 { width:  24px }
+.progress_bar_020 { width:  48px }
+.progress_bar_030 { width:  72px }
+.progress_bar_040 { width:  96px }
+.progress_bar_050 { width: 120px }
+.progress_bar_060 { width: 144px }
+.progress_bar_070 { width: 168px }
+.progress_bar_080 { width: 192px }
+.progress_bar_090 { width: 216px }
+.progress_bar_100 { width: 238px }
+
+#percentage_field { display: inline-block; }
+
+#display { display: block; }
+
+#editor
+{
+    margin: 0px;
+    padding: 0px;
+
+    width: 100%;
+    height: 120px;
+
+    font-family: monospace;
+    font-size: 16pt;
+    font-weight: bold;
+    color: #bbbbcc;
+    text-align: center;
+
+    overflow: auto;
+    resize: none;
+
+    background-color: transparent;
+    border: 0px none transparent;
+}
+
+/* character_map */
+
+.ch_key
+{
+    display: inline-block;
+    margin: 0px 4px 0px 4px;
+    text-align: center;
+}
+
+.ch_key img
+{
+    cursor: pointer; 
+    user-select: none;
+}
+
+.ch_icon { margin: 4px 8px; width: 18px; }
+.ch_icon_xsm { margin: 2px 4px; width: 10px; }
+.ch_icon_sm { margin: 2px 4px; width: 16px; }
+.ch_icon_m { margin: 4px 8px; width: 18px; }
+.ch_icon_l { margin: 4px 8px; width: 24px; }
+.ch_icon_xl { margin: 4px 8px; width: 48px; }
+
+/* responsive_design */
+
+@media only screen and (min-width: 320px)
+{
+    .ch_icon { margin: 2px 4px; width: 16px; }
+
+    .img_caption { display: inline-block; }
+    .img_caption_large { display: none; }
+
+    .display_download
+    {
+        display: block;
+        margin: 20px auto 20px auto;
+        width: 320px;
+        height: 240px;
+        image-rendering: pixelated;
+    } 
+
+    #display
+    {
+        margin: 20px auto 0px auto;
+        height: 240px;
+        image-rendering: pixelated;
+        width: 320px;
+    }
+}
+
+@media only screen and (min-width: 640px)
+{
+
+    .ch_icon { margin: 4px 8px; width: 18px; }
+
+    .img_caption { display: none; }
+    .img_caption_large { display: inline-block; }
+
+    .display_download
+    {
+        display: block;
+        margin: 20px auto 20px auto;
+        width: 640px;
+        height: 480px;
+        image-rendering: pixelated;
+    }
+
+    #display
+    {
+        display: block;
+        margin: 20px auto 0px auto;
+        width: 640px;
+        height: 480px;
+        image-rendering: pixelated;
+    }
+
+    .panel_caption_bottom { height: 16px; }
+}
+
+@media only screen and (min-width: 1024px)
+{
+    .container
+    {
+         margin: 20px auto;
+         width: 1080px;
+    }
+
+    #pnl_home { float: left; width: 70%; }
+    #pnl_right { float: left; width: 30%; }
+
+    .img_caption { display: none; }
+    .img_caption_large { display: inline-block; }
+
+    .panel_caption { display: none; }
+    .panel_caption_bottom { display: none; }
+    .panel_body { margin: 0px 10px; }
+
+    .control, .control_selected { float: right; margin: 0px 4px 16px 4px; }
+
+    #display
+    {
+        display: block;
+        height: 480px;
+        image-rendering: pixelated;
+        margin: 0px auto 20px auto;
+        width: 640px;
+    }
+
+    .display_download
+    {
+        display: block;
+        height: 480px;
+        image-rendering: pixelated;
+        margin: 20px auto 20px auto;
+        width: 640px;
+    }
+
+    #dlg_options { display: none; }
+
+    #pnl_theme, #pnl_effect, #pnl_resolution { display: block; }
+
+    #pnl_about .panel_body { margin: 0px auto; width: 800px; }
+    #pnl_progress_bar .panel_body { margin: 0px auto; width: 640px; }
+    #pnl_download .panel_body { margin: 0px auto; width: 720px; }
+
+    .mmenu { padding: 16px 8px 0px 8px; }
+    .mmenu, .mmenu_bottom { display: block; }
+    .mmenu_bottom { height: 16px; }
+}
+
+</style>
+	
+</head>
+<body>
+
+<a id='link_download' class='invisible' href='' download=''>#</a>
+
+<div class='background_container'>
+    <div class='background_header'>&nbsp;</div>
+    <div class='surface'>&nbsp;</div>
+</div>
+
+<div class='background'>
+
+<div class='mmenu'>
+        <img src='resources/bars.png' class='ch_icon float_l link_about' />
+
+        <a href='https://twitter.com/eccoonline'>
+            <img src='resources/twitter-square.png'
+                class='ch_icon_l float_r' /></a>
+
+        <a href='https://discordapp.com/invite/fG3pjkF'>
+	    <img src='resources/discord.png'
+                class='ch_icon_l float_r' /></a>
+
+        <img src='resources/ecco-text-generator.png' class='img_caption' />
+        <img src='resources/ecco-text-generator-large.png' class='img_caption_large' />
+</div>
+<div class='mmenu_bottom'>&nbsp;</div>
+
+<div id='container' class='container'>
+
+<!-- home_panel -->
+
+<div id='pnl_home' class='panel'>
+
+<div class='panel_caption'>
+    <img src='resources/bars.png' class='ch_icon float_l link_about' />
+    <img src='resources/ecco-text-generator.png' class='img_caption' />
+    <img src='resources/ecco-text-generator-large.png' class='img_caption_large' />
+</div>
+<div class='panel_caption_bottom'>&nbsp;</div>
+
+
+
+<canvas width='320' height='240' id='display'></canvas>
+
+<div class='panel_body'>
+
+<!-- options_dialog -->
+
+<!-- keys_dialog -->
+
+<div class='dialog'>
+<div class='dialog_caption'>
+    Softkeys
+    <div class='float_r'>
+        <div class='ch_key'><img id='key_8000' src='resources/ch/1001.png' /></div>
+        <div class='ch_key'><img id='link_ani' src='resources/ch/1001.png' /></div>
+        <div class='ch_key'><img id='link_int' src='resources/ch/00c6.png' /></div>
+        <div class='ch_key'><img id='link_hira' src='resources/ch/306e.png' /></div>
+    </div>
+</div>
+<div class='dialog_body align_c'>
+
+    <div id='map_ani' class='clear_r'>
+        <div class='ch_key'><img id='key_1001' src='resources/ch/1001.png' /></div>
+        <div class='ch_key'><img id='key_1002' src='resources/ch/1002.png' /></div>
+        <div class='ch_key'><img id='key_1003' src='resources/ch/1003.png' /></div>
+        <div class='ch_key'><img id='key_1004' src='resources/ch/1004.png' /></div>
+        <div class='ch_key'><img id='key_1005' src='resources/ch/1005.png' /></div>
+        <div class='ch_key'><img id='key_1006' src='resources/ch/1006.png' /></div>
+        <div class='ch_key'><img id='key_1007' src='resources/ch/1007.png' /></div>
+        <div class='ch_key'><img id='key_1008' src='resources/ch/1008.png' /></div>
+        <div class='ch_key'><img id='key_1009' src='resources/ch/1009.png' /></div>
+    </div>
+
+    <div id='map_int' class='clear_r invisible'>
+        <div class='ch_key'><img id='key_00c6' src='resources/ch/00c6.png' /></div>
+        <div class='ch_key'><img id='key_00c7' src='resources/ch/0199.png' /></div>
+        <div class='ch_key'><img id='key_00d0' src='resources/ch/00d0.png' /></div>
+        <div class='ch_key'><img id='key_00de' src='resources/ch/00de.png' /></div>
+        <div class='ch_key'><img id='key_0411' src='resources/ch/0411.png' /></div>
+        <div class='ch_key'><img id='key_0413' src='resources/ch/0413.png' /></div>
+        <div class='ch_key'><img id='key_0414' src='resources/ch/0414.png' /></div>
+        <div class='ch_key'><img id='key_0416' src='resources/ch/0416.png' /></div>
+        <div class='ch_key'><img id='key_0418' src='resources/ch/0418.png' /></div>
+        <div class='ch_key'><img id='key_0419' src='resources/ch/0419.png' /></div>
+        <div class='ch_key'><img id='key_041b' src='resources/ch/041b.png' /></div>
+        <div class='ch_key'><img id='key_041f' src='resources/ch/041f.png' /></div>
+        <div class='ch_key'><img id='key_0423' src='resources/ch/0423.png' /></div>
+        <div class='ch_key'><img id='key_0424' src='resources/ch/0424.png' /></div>
+        <div class='ch_key'><img id='key_0427' src='resources/ch/0427.png' /></div>
+        <div class='ch_key'><img id='key_0428' src='resources/ch/0428.png' /></div>
+        <div class='ch_key'><img id='key_0429' src='resources/ch/0429.png' /></div>
+        <div class='ch_key'><img id='key_042a' src='resources/ch/042a.png' /></div>
+        <div class='ch_key'><img id='key_042b' src='resources/ch/042b.png' /></div>
+        <div class='ch_key'><img id='key_042c' src='resources/ch/042c.png' /></div>
+        <div class='ch_key'><img id='key_042d' src='resources/ch/042d.png' /></div>
+        <div class='ch_key'><img id='key_042e' src='resources/ch/042e.png' /></div>
+        <div class='ch_key'><img id='key_042f' src='resources/ch/042f.png' /></div>
+    </div>
+
+    <div id='map_hira' class='clear_r invisible'>
+        <div class='ch_key'><img id='key_3042' src='resources/ch/3042.png' /></div>
+        <div class='ch_key'><img id='key_3044' src='resources/ch/3044.png' /></div>
+        <div class='ch_key'><img id='key_3046' src='resources/ch/3046.png' /></div>
+        <div class='ch_key'><img id='key_3048' src='resources/ch/3048.png' /></div>
+        <div class='ch_key'><img id='key_3051' src='resources/ch/3051.png' /></div>
+        <div class='ch_key'><img id='key_3053' src='resources/ch/3053.png' /></div>
+        <div class='ch_key'><img id='key_3057' src='resources/ch/3057.png' /></div>
+        <div class='ch_key'><img id='key_3059' src='resources/ch/3059.png' /></div>
+        <div class='ch_key'><img id='key_3061' src='resources/ch/3061.png' /></div>
+        <div class='ch_key'><img id='key_3064' src='resources/ch/3064.png' /></div>
+        <div class='ch_key'><img id='key_3066' src='resources/ch/3066.png' /></div>
+        <div class='ch_key'><img id='key_3068' src='resources/ch/3068.png' /></div>
+        <div class='ch_key'><img id='key_3072' src='resources/ch/3072.png' /></div>
+        <div class='ch_key'><img id='key_3075' src='resources/ch/3075.png' /></div>
+        <div class='ch_key'><img id='key_3078' src='resources/ch/3078.png' /></div>
+        <div class='ch_key'><img id='key_3080' src='resources/ch/3080.png' /></div>
+        <div class='ch_key'><img id='key_3081' src='resources/ch/3081.png' /></div>
+        <div class='ch_key'><img id='key_3082' src='resources/ch/3082.png' /></div>
+        <div class='ch_key'><img id='key_3084' src='resources/ch/3084.png' /></div>
+        <div class='ch_key'><img id='key_3086' src='resources/ch/3086.png' /></div>
+        <div class='ch_key'><img id='key_3088' src='resources/ch/3088.png' /></div>
+        <div class='ch_key'><img id='key_3089' src='resources/ch/3089.png' /></div>
+        <div class='ch_key'><img id='key_3092' src='resources/ch/3092.png' /></div>
+        <div class='ch_key'><img id='key_3093' src='resources/ch/3093.png' /></div>
+    </div>
+
+</div>
+</div>
+
+<!-- /-->
+
+<!-- editor_dialog -->
+
+<div class='dialog'>
+<div class='dialog_caption'>What's on your mind?</div>
+
+<div class='dialog_editor'>
+    <textarea id='editor'></textarea>
+</div>
+</div>
+
+<!-- /-->
+
+<!-- options_dialog -->
+
+<div id='dlg_options' class='dialog'>
+<div class='dialog_caption'>Options</div>
+<div class='menu'>
+
+    <div id='ctrl_options_theme' class='menu_item'>Theme 
+        <img src='resources/htm/angle-right.png' 
+            class='ch_icon_xsm float_r' /></div>
+
+    <div id='ctrl_options_effect' class='menu_item'>Effect
+        <img src='resources/htm/angle-right.png' 
+            class='ch_icon_xsm float_r' /></div>
+
+    <div id='ctrl_options_resolution' class='menu_item'>Resolution
+        <img src='resources/htm/angle-right.png'
+           class='ch_icon_xsm float_r' /></div>
+
+</div>
+</div>
+
+<!-- /-->
+
+<!-- home_controls -->
+
+<div id='ctrl_snapshot' class='control'>Take Snapshot</div>
+<div id='ctrl_generate' class='control'>Generate</div>
+
+<!-- /-->
+
+</div>
+</div>
+
+<!-- /home_panel -->
+
+<div id='pnl_right'>
+
+<!-- theme_panel -->
+
+<div id='pnl_theme' class='panel invisible'>
+
+<div class='panel_caption link_home'>
+    <img src='resources/htm/arrow-left.png' class='ch_icon float_l link_home' />
+    <img src='resources/theme.png' class='img_caption link_home' />
+    <img src='resources/theme-large.png' class='img_caption_large link_home' />
+</div>
+<div class='panel_caption_bottom'>&nbsp;</div>
+
+<div class='panel_body'>
+
+<div class='dialog'>
+<div class='dialog_caption'>Theme</div>
+
+<div class='menu'>
+
+    <div id='ctrl_theme_default' class='menu_item'>Default</div>
+    <div id='ctrl_theme_vaporwave' class='menu_item'>Vaporwave</div>
+    <div id='ctrl_theme_thanos' class='menu_item'>Thanos</div>
+    <div id='ctrl_theme_night' class='menu_item'>Night</div>
+    <div id='ctrl_theme_fire' class='menu_item'>Fire</div>
+    <div id='ctrl_theme_jurassic_beach' class='menu_item'>Jurassic Beach</div>
+    <div id='ctrl_theme_the_last_fight' class='menu_item'>The Last Fight</div>
+
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- /theme_panel -->
+
+<!-- effect_panel -->
+
+<div id='pnl_effect' class='panel invisible'>
+
+<div class='panel_caption link_home'>
+    <img src='resources/htm/arrow-left.png' class='ch_icon float_l link_home' />
+    <img src='resources/effect.png' class='img_caption link_home' />
+    <img src='resources/effect-large.png' class='img_caption_large link_home' />
+</div>
+<div class='panel_caption_bottom'>&nbsp;</div>
+
+<div class='panel_body'>
+
+<div class='dialog' id='pnl_effect'>
+<div class='dialog_caption'>Effect</div>
+
+<div class='menu'>
+
+    <div id='ctrl_effect_none' class='menu_item'>None</div>
+    <div id='ctrl_effect_transparent' class='menu_item'>Transparent</div>
+    <div id='ctrl_effect_ripple' class='menu_item'>Ripple</div>
+    <div id='ctrl_effect_reverse_ripple' class='menu_item invisible'>Reverse Ripple</div>
+    <div id='ctrl_effect_double_ripple' class='menu_item invisible'>Double Ripple</div>
+    <div id='ctrl_effect_double_wave' class='menu_item'>Double Wave</div>
+    <div id='ctrl_effect_wave' class='menu_item'>Wave</div>
+    <div id='ctrl_effect_wavex2' class='menu_item'>Wave x2</div>
+    <div id='ctrl_effect_wavex4' class='menu_item'>Wave x4</div>
+    <div id='ctrl_effect_wavex8' class='menu_item'>Wave x8</div>
+    <div id='ctrl_effect_hallucination' class='menu_item'>Hallucination</div>
+    <div id='ctrl_effect_flames' class='menu_item'>Flames</div>
+    <div id='ctrl_effect_reality_distortion' class='menu_item'>Reality Distortion</div>
+
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- /effect_panel -->
+
+<!-- resolution_panel -->
+
+<div id='pnl_resolution' class='panel invisible'>
+
+<div class='panel_caption link_home'>
+    <img src='resources/arrow-left.png' class='ch_icon float_l link_home' />
+    <img src='resources/resolution.png' class='img_caption link_home' />
+    <img src='resources/resolution-large.png' class='img_caption_large link_home' />
+</div>
+<div class='panel_caption_bottom'>&nbsp;</div>
+
+<div class='panel_body'>
+
+<div class='dialog'>
+<div class='dialog_caption'>Resolution</div>
+
+<div class='menu'>
+
+    <div id='ctrl_resolution_ultra' class='menu_item'>640x480 Ultra High
+        <span class='float_r'>(Slow)</span></div>
+
+    <div id='ctrl_resolution_high' class='menu_item'>640x480 High</div>
+    <div id='ctrl_resolution_medium_high' class='menu_item'>320x240 Medium High</div>
+
+    <div id='ctrl_resolution_medium' class='menu_item'>320x240 Medium
+        <span class='float_r'>(Default)</span></div>
+
+    <div id='ctrl_resolution_low' class='menu_item'>320x240 Low
+        <span class='float_r'>(Glitchy|Fast)</span></div>
+
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- /resolution_panel -->
+
+</div>
+
+<!-- about_panel -->
+
+<div id='pnl_about' class='panel invisible'>
+
+<div class='panel_caption link_home'>
+    <img src='resources/htm/arrow-left.png' class='ch_icon float_l link_home' />
+    <img src='resources/about.png' class='img_caption link_home' />
+    <img src='resources/about-large.png' class='img_caption_large link_home' />
+</div>
+<div class='panel_caption_bottom'>&nbsp;</div>
+
+<div class='panel_body'>
+
+<div class='dialog'>
+<div class='dialog_caption'>About</div>
+
+<div class='dialog_body'>
+    <p class='align_c' style='font-weight: bold;'>Ecco Text Generator, Beta Version 0.99.0428</p>
+    <p class='align_c' style='font-weight: bold;'>Created by Johnny L. de Alba (Arkonviox), 2020.</p>
+
+    <p class='align_c'>
+        <a href='https://twitter.com/eccoonline'><img src='resources/twitter-square.png' class='ch_icon_xl' /></a>
+        <a href='https://discordapp.com/invite/fG3pjkF'><img src='resources/discord.png' class='ch_icon_xl' /></a>
+    </p>
+	
+    <span  style='font-weight: bold;'>What is this?</span>
+
+    <p>It's an Ecco the Dolphin Text Generator that creates animated gifs and static images using 
+    the ripple generating algorythm from Ecco 2: The Tides of Time.</p>
+	
+    <span  style='font-weight: bold;'>Characters Supported:</span>
+
+    <p>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z À È Ì Ò Ù Á É Í Ó Ú Ȁ Ȅ Ȉ Ȍ Ȕ Ä Ë Ï Ö Ü Ã Ẽ Ĩ Õ Ũ Ň Â
+    Ê Î Ô Û Ç Ð Þ Æ Б Г Д Ж И Й Л П У Ф Ч Ш Щ Ъ Ы Ь Э Ю Я 0 1 2 3 4 5 6 7 8 9 ! ¡ ? ¿ , . ' ; : -</p>
+		
+   <span  style='font-weight: bold;'>Japanese Hiragana Characters Supported:</span>
+    <p>あかたなはまやらわいきしちにひみりうくすつふむゆるえけせねへめれおこそとのほもよをんろ</p>
+		
+    <span  style='font-weight: bold;'>Japanese Katakana Characters Supported:</span>
+    <p>アカサタナハマヤラワイキシチニヒミリヰウクスツヌフムユルエケセテネヘメレヱオコソトノホモヨロヲン</p>
+		
+    <p><span style='font-weight: bold;'>Smart Quote Feature:</span> { and }</p>
+		
+    <p style='font-weight: bold;'>Special Thanks:</p>
+	
+    <p>Jake ( Twitter: <a href='https://twitter.com/fiuefey'>@fiuefey</a> )
+    for providing numbers and Icelandic character support.</p>
+
+    <p>Brad Corrupts ( Twitter: <a href='https://twitter.com/Reaper_man02'>@Reaper_man02</a> )
+    who reverse engineered the original Ecco the Dolphin ripple generating algorythm from which
+    he was able to find various effects. Although this generator uses code reverse engineered from
+    Ecco 2, it was Brad's findings that inspired the effect portion of this generator.</p>
+
+</div>   
+</div>
+
+<div id='ctrl_website' class='control'>Go to Ecco Online</div>
+<div id='ctrl_ok' class='control'>OK</div>
+
+</div>
+</div>
+
+<!-- /about_panel -->
+
+<!-- progress_bar_panel -->
+
+<div id='pnl_progress_bar' class='panel invisible'>
+
+<div class='panel_caption'>
+    <img src='resources/processing-gif.png' class='img_caption' />
+    <img src='resources/processing-gif-large.png' class='img_caption_large' />
+</div>
+<div class='panel_caption_bottom'>&nbsp;</div>
+
+<div class='panel_body'>
+
+<div class='dialog'>
+<div id='progress_bar_caption' class='dialog_caption'></div>
+
+<div class='dialog_body'>
+
+    <br />
+    <div class='align_c'>
+
+        <div class='progress_bar'>
+            <div id='ctrl_progress_bar' class='progress_bar_000'></div>
+        </div>
+
+        <div id='percentage_field'>&nbsp;0%</div>
+        <br />&nbsp;
+    </div>
+
+</div>
+</div>
+
+<div id='ctrl_cancel' class='control'>Cancel</div>
+
+</div>
+</div>
+
+<!-- /progress_bar_panel -->
+
+<!-- download_panel -->
+
+<div id='pnl_download' class='panel invisible'>
+
+<div class='panel_caption'>
+    <img src='resources/save-image.png' class='img_caption' />
+    <img src='resources/save-image-large.png' class='img_caption_large' />
+</div>
+<div class='panel_caption_bottom'>&nbsp;</div>
+
+<div class='panel_body'>
+
+    <div id='display_download'></div>
+    <div id='ctrl_download' class='control'>Save</div>
+    <div id='ctrl_close' class='control'>Close</div>
+
+</div>
+</div>
+
+<!-- /download_panel -->
+
+</div>
+</div>
+
+<script>
+
+var program = create_program();
+update_program(program);
+
+</script>
+</body>
+</html>
