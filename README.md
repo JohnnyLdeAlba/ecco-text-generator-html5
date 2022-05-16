@@ -1,5 +1,3 @@
- README IS A WORK IN PROGRESS!
-
 # Ecco Text Generator
 A text generator that creates animated GIFs in the style of messages found in the classic video game Ecco the Dolphin. 
 
@@ -21,7 +19,7 @@ The background animation used in this generator incorporates a ripple effect fro
 
 - Generates PNGs or animated GIFs in the style of messages found in the video game Ecco the Dolphin.
 - Supports multiple languages including Russian and partial Katakana and Hirgana support.
-- Has multiple animated critters to choose from.
+- Animated critters adds a fun layer to the whole generator experience.
 - Choose from a variety of themes and ripple effects!
 - Muitple resolution support for generating smaller file sizes.
 
