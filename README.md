@@ -9,6 +9,9 @@ The background animation used in this generator incorporates a ripple effect tha
 ported from the original games!
 
 (Credit those who helped here)
+Jake ( Twitter: @fiuefey ) for providing numbers and Icelandic character support.
+
+Brad Corrupts ( Twitter: @Reaper_man02 ) who reverse engineered the original Ecco the Dolphin ripple generating algorythm from which he was able to find various effects. Although this generator uses code reverse engineered from Ecco 2, it was Brad's findings that inspired the effect portion of this generator.
 
 # Dependancies
 
@@ -20,6 +23,7 @@ gif.js 0.2.0 - https://github.com/jnordberg/gif.js
 - Supports multiple languages including Russian and partial Katakana and Hirgana support.
 - Has multiple animated critters to choose from.
 - Multiple themes and ripple patterns to chose from!
+- Multiple resolutions.
 
 # [Example](https://eccothedolphin.online/ecco-text-generator/)
 This is a live version of the repo.
