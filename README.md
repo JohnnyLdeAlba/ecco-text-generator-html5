@@ -15,7 +15,7 @@ Brad Corrupts ( Twitter: @Reaper_man02 ) who reverse engineered the original Ecc
 
 # Dependancies
 
-gif.js 0.2.0 - https://github.com/jnordberg/gif.js
+- gif.js 0.2.0 - https://github.com/jnordberg/gif.js (Included)
 
 # Features
 
