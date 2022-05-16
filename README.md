@@ -1,6 +1,6 @@
  README IS A WORK IN PROGRESS!
 
-# ecco-text-generator
+# Ecco Text Generator
 A text generator that creates animated GIFs in the style of messages found in the classic video game Ecco the Dolphin. 
 
 # How Was This Made?
