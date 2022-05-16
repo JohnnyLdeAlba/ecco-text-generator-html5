@@ -5,13 +5,13 @@ A text generator that creates animated GIFs in the style of messages found in th
 
 # How Was This Made?
 
-The background animation used in this generator incorporates a ripple effect that is also an algorithm
-ported from the original games!
+The background animation used in this generator incorporates a ripple effect from the original games that was ported from 68000 assembly to Javascript!
 
-(Credit those who helped here)
-Jake ( Twitter: @fiuefey ) for providing numbers and Icelandic character support.
+# Credits
 
-Brad Corrupts ( Twitter: @Reaper_man02 ) who reverse engineered the original Ecco the Dolphin ripple generating algorythm from which he was able to find various effects. Although this generator uses code reverse engineered from Ecco 2, it was Brad's findings that inspired the effect portion of this generator.
+[Jake](https://twitter.com/fiuefey) for providing numbers and Icelandic character support.
+
+[Brad Corrupts](https://twitter.com/Reaper_man02) who discovered the various effects the ripple generator can produce.
 
 # Dependancies
 
@@ -19,11 +19,11 @@ Brad Corrupts ( Twitter: @Reaper_man02 ) who reverse engineered the original Ecc
 
 # Features
 
-- Generates PNG images or animated GIFs in the style of messages found in Ecco the Dolphin.
+- Generates PNGs or animated GIFs in the style of messages found in the video game Ecco the Dolphin.
 - Supports multiple languages including Russian and partial Katakana and Hirgana support.
 - Has multiple animated critters to choose from.
-- Multiple themes and ripple patterns to chose from!
-- Multiple resolutions.
+- Choose from a variety of themes and ripple effects!
+- Muitple resolution support for generating smaller file sizes.
 
 # [Example](https://eccothedolphin.online/ecco-text-generator/)
 This is a live version of the repo.
