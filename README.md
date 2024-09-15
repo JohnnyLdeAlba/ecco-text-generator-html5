@@ -5,7 +5,7 @@ A text generator that creates animated GIFs in the style of messages found in th
 
 # Disclaimer
 
-This is an old version of the Ecco Text Generator that was built in html5 and is no longer supported. A newer updated version built in Next.js can be found at: [https://github.com/JohnnyLdeAlba/ecco-text-generator-html5](https://github.com/JohnnyLdeAlba/ecco-text-generator-html5)
+This is an old version of the Ecco Text Generator that was built in html5 and is no longer supported. A newer updated version built in Next.js can be found at: [https://github.com/JohnnyLdeAlba/ecco-text-generator](https://github.com/JohnnyLdeAlba/ecco-text-generator)
   
 # Interesting Facts
 
