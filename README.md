@@ -1,7 +1,7 @@
 # Ecco Text Generator
 A text generator that creates animated GIFs in the style of messages found in the classic video game Ecco the Dolphin. 
 
-![Ecco Text Generator Sample Image](https://raw.githubusercontent.com/JohnnyLdeAlba/ecco-text-generator/master/ecco-text-generator.gif)
+![Ecco Text Generator Sample Image](https://raw.githubusercontent.com/JohnnyLdeAlba/ecco-text-generator-html5/master/ecco-text-generator.gif)
   
 # Interesting Facts
 
