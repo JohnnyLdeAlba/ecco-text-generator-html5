@@ -2,10 +2,14 @@
 A text generator that creates animated GIFs in the style of messages found in the classic video game Ecco the Dolphin. 
 
 ![Ecco Text Generator Sample Image](https://raw.githubusercontent.com/JohnnyLdeAlba/ecco-text-generator-html5/master/ecco-text-generator.gif)
+
+# Disclaimer
+
+This is an old version of the Ecco Text Generator that was built in html5 and is no longer supported. A newer updated version built in Next.js can be found at: [https://github.com/JohnnyLdeAlba/ecco-text-generator-html5](https://github.com/JohnnyLdeAlba/ecco-text-generator-html5)
   
 # Interesting Facts
 
-The background animation used in this generator incorporates a ripple effect from the original games that was ported from 68000 assembly to Javascript!
+The background animation used in this generator incorporates a ripple effect from the original games that was reverse engineered from 68000 assembly to Javascript!
 
 # Credits
 
